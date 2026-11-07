@@ -1,0 +1,39 @@
+name: 'Flow hard-coded Id scanner'
+description: 'Fails the build when Salesforce Flow (and optionally other metadata) contains hard-coded record Ids, with an annotation on each one.'
+author: 'Serj Sambros'
+branding:
+  icon: 'search'
+  color: 'blue'
+inputs:
+  path:
+    description: 'Directory or file to scan'
+    required: false
+    default: 'force-app'
+  all-metadata:
+    description: 'Also scan validation rules, formula fields, workflows, flexipages, quick actions, approval processes, sharing rules, Visualforce, email templates, and Apex'
+    required: false
+    default: 'false'
+  allowlist:
+    description: 'Path to a file with one allowed Id per line'
+    required: false
+    default: ''
+  certain-only:
+    description: 'Report only 18-character Ids with a valid checksum'
+    required: false
+    default: 'false'
+  fail:
+    description: 'Fail the step when Ids are found'
+    required: false
+    default: 'true'
+runs:
+  using: 'composite'
+  steps:
+    - name: Scan for hard-coded Ids
+      shell: bash
+      run: |
+        ARGS=("${{ inputs.path }}" --format github)
+        if [ "${{ inputs.all-metadata }}" = "true" ]; then ARGS+=(--all); fi
+        if [ -n "${{ inputs.allowlist }}" ]; then ARGS+=(--allow "${{ inputs.allowlist }}"); fi
+        if [ "${{ inputs.certain-only }}" = "true" ]; then ARGS+=(--certain-only); fi
+        if [ "${{ inputs.fail }}" != "true" ]; then ARGS+=(--no-fail); fi
+        node "${{ github.action_path }}/bin/cli.js" "${ARGS[@]}"

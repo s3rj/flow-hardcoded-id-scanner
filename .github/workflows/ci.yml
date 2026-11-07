@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm test
+
+  self-check:
+    name: Scanner finds the fixtures
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Clean fixtures pass
+        run: node bin/cli.js fixtures/clean --all
+      - name: Dirty fixtures fail
+        run: |
+          if node bin/cli.js fixtures/dirty --all; then
+            echo "expected the dirty fixtures to fail the scan" && exit 1
+          fi
+      - name: Action wrapper works
+        uses: ./
+        with:
+          path: fixtures/dirty
+          all-metadata: 'true'
+          fail: 'false'

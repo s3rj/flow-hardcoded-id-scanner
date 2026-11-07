@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Escalated_Cases_Need_Queue</fullName>
+    <active>true</active>
+    <description>Escalated cases must be owned by the escalation queue.</description>
+    <errorConditionFormula>AND(
+    RecordTypeId = &quot;012Hs000001AbCdIAK&quot;,
+    OwnerId &lt;&gt; &quot;00GHs000002QabcMAC&quot;
+)</errorConditionFormula>
+    <errorMessage>Escalated cases belong to the escalation queue.</errorMessage>
+</ValidationRule>

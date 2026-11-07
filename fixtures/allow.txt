@@ -1,0 +1,2 @@
+# Ids the team has accepted for now, one per line; 15 or 18 characters.
+00GHs000002Qabc   # Tier 1 escalation queue, same Id in every org until the Q1 cleanup

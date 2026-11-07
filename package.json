@@ -1,0 +1,36 @@
+{
+  "name": "flow-hardcoded-id-scanner",
+  "version": "0.1.0",
+  "description": "Finds Salesforce record Ids hard-coded in Flow and other metadata, for CI and tech-debt reviews",
+  "type": "module",
+  "bin": {
+    "flow-hardcoded-id-scanner": "bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "action.yml"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "scan": "node bin/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "salesforce",
+    "flow",
+    "metadata",
+    "sfdx",
+    "ci",
+    "lint",
+    "hard-coded-id"
+  ],
+  "author": "Serj Sambros",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/s3rj/flow-hardcoded-id-scanner.git"
+  }
+}
